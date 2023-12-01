@@ -1,10 +1,26 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "./AppContext";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { appState, addTodo, deleteAllTodos } = useContext(AppContext);
 
-  return <></>;
+  const [todo, setTodo] = useState({ text: "something" });
+
+  const onSubmit = () => {
+    addTodo(todo);
+  };
+
+  return (
+    <div>
+      {appState.todoItems.map((item) => (
+        <>{item.text}</>
+      ))}
+
+      <button onClick={onSubmit}>add todo</button>
+      <button onClick={deleteAllTodos}>Reset</button>
+    </div>
+  );
 }
 
 export default App;
