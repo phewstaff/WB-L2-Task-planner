@@ -16,7 +16,6 @@ const AppProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log(2);
     sessionStorage.setItem("appState", JSON.stringify(appState));
   }, [appState]);
 
@@ -24,6 +23,15 @@ const AppProvider = ({ children }) => {
     setAppState((prevState) => ({
       ...prevState,
       todoItems: [...prevState.todoItems, newTodo],
+    }));
+  };
+
+  const updateTodo = (updatedTodo) => {
+    setAppState((prevState) => ({
+      ...prevState,
+      todoItems: prevState.todoItems.map((todo) =>
+        todo.id === updatedTodo.id ? updatedTodo : todo
+      ),
     }));
   };
 
@@ -35,7 +43,9 @@ const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ appState, addTodo, deleteAllTodos }}>
+    <AppContext.Provider
+      value={{ appState, addTodo, updateTodo, deleteAllTodos }}
+    >
       {children}
     </AppContext.Provider>
   );
