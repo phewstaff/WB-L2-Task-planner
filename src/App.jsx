@@ -38,7 +38,9 @@ function App() {
         />
       ))}
 
-      <button onClick={deleteAllTodos}>Удалить все</button>
+      <button onClick={deleteAllTodos}>
+        <h2>Delete all</h2>
+      </button>
     </div>
   );
 }

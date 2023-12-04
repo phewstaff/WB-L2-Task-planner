@@ -3,6 +3,11 @@
   src: url(assets/fonts/SF-Compact-Rounded-Heavy.otf);
 }
 
+@font-face {
+  font-family: "SF-Rounded Regular";
+  src: url(assets/fonts/SF-Compact-Rounded-Regular.otf);
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -24,7 +29,8 @@
 }
 
 h1,
-h2 {
+h2,
+h3 {
   font-family: SF-Rounded Bold;
 }
 
