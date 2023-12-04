@@ -1,53 +1,44 @@
 import { AppContext } from "./AppContext";
-import { useState, useContext, useId, useEffect } from "react";
+import { useState, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import "./App.css";
+import TodoItem from "./components/TodoItem";
 
 function App() {
-  const { appState, addTodo, updateTodo, deleteAllTodos } =
-    useContext(AppContext);
+  const { appState, addTodo, deleteAllTodos } = useContext(AppContext);
 
   const [todo, setTodo] = useState({ text: "" });
   const [focusedId, setFocusedId] = useState();
-  console.log(todo.text);
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
     const id = uuidv4();
-    setTodo("");
-    addTodo({ ...todo, id, text: "" });
+    setTodo({ text: "" });
+    addTodo({ id, text: "" });
     setFocusedId(id);
   };
 
-  const handleOnBlur = () => {
-    setFocusedId(null);
-    updateTodo(todo);
-  };
-
   return (
-    <div>
+    <div className="app-container">
+      <div className="top">
+        <h2>Inbox</h2>
+        <button className="addButton" onClick={onSubmit}>
+          <span>+</span>
+        </button>
+      </div>
+
       {appState.todoItems.map((item) => (
-        <div key={item.id}>
-          <h1>{item.text}</h1>
-          <input
-            defaultValue=""
-            autoFocus
-            disabled={item.id !== focusedId}
-            id={item.id}
-            value={item.id === focusedId ? todo.text : item.text}
-            onChange={(e) => {
-              setTodo({ id: item.id, text: e.target.value });
-            }}
-            onBlurCapture={handleOnBlur}
-            type="text"
-            name=""
-          />
-        </div>
+        <TodoItem
+          todo={todo}
+          setFocusedId={setFocusedId}
+          setTodo={setTodo}
+          key={item.id}
+          item={item}
+          focusedId={focusedId}
+        />
       ))}
 
-      <button onClick={deleteAllTodos}>Reset</button>
-
-      <button onClick={onSubmit}>+</button>
+      <button onClick={deleteAllTodos}>Удалить все</button>
     </div>
   );
 }
