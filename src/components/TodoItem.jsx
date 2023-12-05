@@ -2,28 +2,51 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
+import CustomInput from "./CustomInput";
+
 const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isNoteVisible, setNoteVisible] = useState(false);
   const { updateTodo } = useContext(AppContext);
 
-  const handleOnBlur = () => {
+  const isNoteEmpty = item.note.trim().length === 0;
+
+  const handleTextBlur = () => {
     updateTodo(todo);
-    setIsActive(false);
+    setIsFocused(false);
   };
 
-  const handleOnChange = (e) => {
-    setTodo({ id: item.id, text: e.target.value });
+  const handleTextChange = (e) => {
+    setTodo({ ...item, text: e.target.value });
+  };
+
+  const handleTextFocus = () => {
+    setIsFocused(true);
+    setTodo({ ...item });
+    setFocusedId(item.id);
+    setNoteVisible(true);
   };
 
   const handleOnClick = (e) => {
-    setIsActive(true);
+    setIsFocused(true);
     setFocusedId(item.id);
   };
 
-  const handleOnFocus = () => {
-    setIsActive(true);
-    setTodo({ text: item.text });
+  const handleNoteBlur = () => {
+    updateTodo(todo);
+    setIsFocused(false);
+    setNoteVisible(false);
+    setFocusedId(null);
+  };
+
+  const handleNoteChange = (e) => {
+    setTodo({ ...todo, note: e.target.value });
+  };
+
+  const handleNoteFocus = () => {
+    setTodo({ ...item });
     setFocusedId(item.id);
+    setNoteVisible(true);
   };
 
   return (
@@ -31,20 +54,35 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
       <input type="radio" />
 
       <div className="todo-item-content">
-        <input
-          onFocus={handleOnFocus}
-          className="todo-input"
+        <CustomInput
+          handleOnFocus={handleTextFocus}
+          className="todo-text-input"
+          focusedId={focusedId}
+          item={item}
           // onClick={handleOnClick}
+          focusedValue={todo.text}
+          blurredValue={item.text}
+          handleOnChange={handleTextChange}
+          handleOnBlur={handleTextBlur}
           autoFocus
-          id={item.id}
-          value={item.id === focusedId ? todo.text : item.text}
-          onChange={handleOnChange}
-          onBlurCapture={handleOnBlur}
           type="text"
         />
-      </div>
 
-      {isActive && <h3 onClick={handleOnClick}>Add note</h3>}
+        {(!isNoteEmpty || focusedId === item.id) && (
+          <CustomInput
+            className="todo-note-input"
+            placeholder="Add note"
+            type="text"
+            handleOnFocus={handleNoteFocus}
+            focusedId={focusedId}
+            item={item}
+            focusedValue={todo.note}
+            blurredValue={item.note}
+            handleOnChange={handleNoteChange}
+            handleOnBlur={handleNoteBlur}
+          />
+        )}
+      </div>
       <hr />
     </div>
   );
