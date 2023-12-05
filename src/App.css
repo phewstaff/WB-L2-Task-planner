@@ -41,27 +41,44 @@ body {
 
 .todo-container {
   display: flex;
+
+  .todo-text-input,
+  .todo-note-input {
+    background: none;
+    width: 100%;
+    border: none;
+    outline: none; /* This removes the focus outline */
+    cursor: pointer;
+
+    &:focus {
+      cursor: initial;
+    }
+  }
 }
 
-.todo-input {
+.todo-text-input {
   font-family: "SF-Rounded Regular";
   font-size: medium;
   background: none;
   width: 100%;
-  border: none;
-  outline: none; /* This removes the focus outline */
-  cursor: pointer;
 }
 
-.todo-input:focus {
-  cursor: initial;
-  /* Add any styles you want when the input is focused */
+.todo-note-input {
+  color: rgba(172, 172, 172, 1);
+  font-family: SF-Rounded Bold;
+  font-size: smaller;
+  background: none;
+  width: 100%;
+
+  &::placeholder {
+    color: rgba(172, 172, 172, 1);
+  }
 }
 
 hr {
+  border: none;
+  border-top: 1px solid rgba(172, 172, 172, 1);
   margin: 5px 0;
   padding: 0;
   height: 0;
-  border: none;
-  border-top: 1px solid rgba(172, 172, 172, 1);
 }
