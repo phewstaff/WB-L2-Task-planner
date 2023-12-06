@@ -2,25 +2,24 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
-import DatePopup from "./DatePopup";
-
 import "../assets/styles/CustomCheckbox.css";
+import calendarToggle from "../assets/images/calendar.svg";
+import info from "../assets/images/info.svg";
+import deleteIcon from "../assets/images/delete.svg";
 
+import DatePopup from "./DatePopup";
 import CustomInput from "./CustomInput";
 
-import calendarToggle from "../assets/images/calendar.svg";
-
 const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
-  const [isFocused, setIsFocused] = useState(false);
   const [isNoteVisible, setNoteVisible] = useState(false);
-  const { updateTodo } = useContext(AppContext);
+  const { updateTodo, deleteTodo } = useContext(AppContext);
 
   const isNoteEmpty = item.note.trim().length === 0;
   const isDateEmpty = item.date.trim().length === 0;
+  const isTimeEmpty = item.time.trim().length === 0;
 
   const handleTextBlur = () => {
     updateTodo(todo);
-    setIsFocused(false);
   };
 
   const handleTextChange = (e) => {
@@ -28,20 +27,13 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
   };
 
   const handleTextFocus = () => {
-    setIsFocused(true);
     setTodo({ ...item });
     setFocusedId(item.id);
     setNoteVisible(true);
   };
 
-  // const handleOnClick = (e) => {
-  //   setIsFocused(true);
-  //   setFocusedId(item.id);
-  // };
-
   const handleNoteBlur = () => {
     updateTodo(todo);
-    setIsFocused(false);
     setNoteVisible(false);
     setFocusedId(null);
   };
@@ -102,7 +94,10 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
           />
         )}
 
-        {!isDateEmpty && <p className="date">{item.date}</p>}
+        <div className="date-container">
+          {!isDateEmpty && <p className="date">{item.date}</p>}
+          {!isTimeEmpty && <p className="date">{item.time}</p>}
+        </div>
       </div>
 
       <DatePopup
@@ -111,7 +106,10 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
         onSubmit={handleSubmitDate}
       />
 
-      <img onClick={togglePopup} src={calendarToggle} />
+      <div className="actions">
+        <img onClick={togglePopup} src={calendarToggle} />
+        <img onClick={() => deleteTodo(item.id)} src={deleteIcon} />
+      </div>
     </div>
   );
 };

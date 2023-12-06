@@ -35,6 +35,13 @@ const AppProvider = ({ children }) => {
     }));
   };
 
+  const deleteTodo = (id) => {
+    setAppState((prevState) => ({
+      ...prevState,
+      todoItems: prevState.todoItems.filter((todo) => todo.id !== id),
+    }));
+  };
+
   const deleteAllTodos = () => {
     setAppState((prevState) => ({
       ...prevState,
@@ -44,7 +51,7 @@ const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ appState, addTodo, updateTodo, deleteAllTodos }}
+      value={{ appState, addTodo, updateTodo, deleteAllTodos, deleteTodo }}
     >
       {children}
     </AppContext.Provider>
