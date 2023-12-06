@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
+import DatePopup from "./DatePopup";
+
 import "../assets/styles/CustomCheckbox.css";
 
 import CustomInput from "./CustomInput";
+
+import calendarToggle from "../assets/images/calendar.svg";
 
 const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -12,6 +16,7 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
   const { updateTodo } = useContext(AppContext);
 
   const isNoteEmpty = item.note.trim().length === 0;
+  const isDateEmpty = item.date.trim().length === 0;
 
   const handleTextBlur = () => {
     updateTodo(todo);
@@ -51,6 +56,17 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
     setNoteVisible(true);
   };
 
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const togglePopup = () => {
+    setFocusedId(item.id);
+    setPopupOpen(!isPopupOpen);
+  };
+
+  const handleSubmitDate = (selectedDate, selectedTime) => {
+    updateTodo({ ...item, date: selectedDate, time: selectedTime });
+  };
+
   return (
     <div className="todo-container" key={item.id}>
       <label>
@@ -71,7 +87,6 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
           autoFocus
           type="text"
         />
-
         {(!isNoteEmpty || focusedId === item.id) && (
           <CustomInput
             className="todo-note-input"
@@ -86,8 +101,17 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
             handleOnBlur={handleNoteBlur}
           />
         )}
+
+        {!isDateEmpty && <p className="date">{item.date}</p>}
       </div>
-      <hr />
+
+      <DatePopup
+        isOpen={isPopupOpen}
+        onClose={() => setPopupOpen(false)}
+        onSubmit={handleSubmitDate}
+      />
+
+      <img onClick={togglePopup} src={calendarToggle} />
     </div>
   );
 };
