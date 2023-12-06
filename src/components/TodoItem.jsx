@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
+import "../assets/styles/CustomCheckbox.css";
+
 import CustomInput from "./CustomInput";
 
 const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
@@ -27,10 +29,10 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
     setNoteVisible(true);
   };
 
-  const handleOnClick = (e) => {
-    setIsFocused(true);
-    setFocusedId(item.id);
-  };
+  // const handleOnClick = (e) => {
+  //   setIsFocused(true);
+  //   setFocusedId(item.id);
+  // };
 
   const handleNoteBlur = () => {
     updateTodo(todo);
@@ -51,7 +53,9 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
 
   return (
     <div className="todo-container" key={item.id}>
-      <input type="radio" />
+      <label>
+        <input type="checkbox" className="option-input checkbox" />
+      </label>
 
       <div className="todo-item-content">
         <CustomInput
