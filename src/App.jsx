@@ -1,5 +1,5 @@
 import { AppContext } from "./AppContext";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import "./App.css";
@@ -8,15 +8,25 @@ import TodoItem from "./components/TodoItem";
 function App() {
   const { appState, addTodo, deleteAllTodos } = useContext(AppContext);
 
-  const [todo, setTodo] = useState({ text: "" });
+  const [todo, setTodo] = useState({});
   const [focusedId, setFocusedId] = useState();
 
   const onSubmit = (e) => {
     const id = uuidv4();
-    setTodo({ text: "" });
-    addTodo({ id, text: "" });
+    setTodo({ text: "New task", note: "", date: "", time: "" });
+    addTodo({ id, text: "New task", note: "", date: "", time: "" });
     setFocusedId(id);
   };
+
+  useEffect(() => {
+    if ("Notification" in window) {
+      if (Notification.permission !== "granted") {
+        Notification.requestPermission();
+      }
+    }
+
+    return;
+  }, []);
 
   return (
     <div className="app-container">
@@ -28,14 +38,18 @@ function App() {
       </div>
 
       {appState.todoItems.map((item) => (
-        <TodoItem
-          todo={todo}
-          setFocusedId={setFocusedId}
-          setTodo={setTodo}
-          key={item.id}
-          item={item}
-          focusedId={focusedId}
-        />
+        <div key={item.id}>
+          <TodoItem
+            todo={todo}
+            setFocusedId={setFocusedId}
+            setTodo={setTodo}
+            key={item.id}
+            item={item}
+            focusedId={focusedId}
+          />
+
+          <hr />
+        </div>
       ))}
 
       <button onClick={deleteAllTodos}>

@@ -4,11 +4,12 @@ import { AppContext } from "../AppContext";
 
 import "../assets/styles/CustomCheckbox.css";
 import calendarToggle from "../assets/images/calendar.svg";
-import info from "../assets/images/info.svg";
 import deleteIcon from "../assets/images/delete.svg";
 
 import DatePopup from "./DatePopup";
 import CustomInput from "./CustomInput";
+import { scheduleNotification } from "../hooks/scheduleNotification";
+import { parseCustomDate } from "../hooks/parseCustomDate";
 
 const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
   const [isNoteVisible, setNoteVisible] = useState(false);
@@ -57,6 +58,9 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
 
   const handleSubmitDate = (selectedDate, selectedTime) => {
     updateTodo({ ...item, date: selectedDate, time: selectedTime });
+
+    const todoDate = parseCustomDate(selectedDate + " " + selectedTime);
+    scheduleNotification(todoDate);
   };
 
   return (
