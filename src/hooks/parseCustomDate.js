@@ -1,5 +1,4 @@
 export const parseCustomDate = (dateString) => {
-  console.log(dateString);
   const [year, month, dayTime] = dateString.split("-");
   let [day, time] = dayTime.split(" ");
 
