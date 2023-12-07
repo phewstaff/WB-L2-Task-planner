@@ -1,20 +1,36 @@
-import { AppContext } from "./AppContext";
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import "./App.css";
+import { AppContext } from "./AppContext";
 import TodoItem from "./components/TodoItem";
+import { useSortTodos } from "./hooks/todoSort";
+
+import "./App.css";
 
 function App() {
   const { appState, addTodo, deleteAllTodos } = useContext(AppContext);
-
   const [todo, setTodo] = useState({});
   const [focusedId, setFocusedId] = useState();
 
+  const { sortedTodos, toggleSortBy } = useSortTodos(appState.todoItems);
+
   const onSubmit = (e) => {
     const id = uuidv4();
-    setTodo({ text: "New task", note: "", date: "", time: "" });
-    addTodo({ id, text: "New task", note: "", date: "", time: "" });
+    setTodo({
+      text: "New task",
+      note: "",
+      date: "",
+      time: "",
+      completed: false,
+    });
+    addTodo({
+      id,
+      text: "New task",
+      note: "",
+      date: "",
+      time: "",
+      completed: false,
+    });
     setFocusedId(id);
   };
 
@@ -35,9 +51,15 @@ function App() {
         <button className="addButton" onClick={onSubmit}>
           <span>+</span>
         </button>
+        <button onClick={() => toggleSortBy("completion")}>
+          <span>Sort:Completed</span>
+        </button>
+        <button onClick={() => toggleSortBy("date")}>
+          <span>Sort:Date</span>
+        </button>
       </div>
 
-      {appState.todoItems.map((item) => (
+      {sortedTodos.map((item) => (
         <div key={item.id}>
           <TodoItem
             todo={todo}

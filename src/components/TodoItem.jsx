@@ -15,9 +15,13 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
   const [isNoteVisible, setNoteVisible] = useState(false);
   const { updateTodo, deleteTodo } = useContext(AppContext);
 
+  const [completed, setCompleted] = useState(item.completed || false);
+
   const isNoteEmpty = item.note.trim().length === 0;
   const isDateEmpty = item.date.trim().length === 0;
   const isTimeEmpty = item.time.trim().length === 0;
+
+  console.log(item.time);
 
   const handleTextBlur = () => {
     updateTodo(todo);
@@ -49,6 +53,11 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
     setNoteVisible(true);
   };
 
+  const handleCheckboxChange = () => {
+    setCompleted(!completed);
+    updateTodo({ ...item, completed: !completed });
+  };
+
   const [isPopupOpen, setPopupOpen] = useState(false);
 
   const togglePopup = () => {
@@ -64,9 +73,17 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
   };
 
   return (
-    <div className="todo-container" key={item.id}>
+    <div
+      className={`todo-container ${completed ? "completed" : ""}`}
+      key={item.id}
+    >
       <label>
-        <input type="checkbox" className="option-input checkbox" />
+        <input
+          type="checkbox"
+          className="option-input checkbox"
+          checked={completed}
+          onChange={handleCheckboxChange}
+        />
       </label>
 
       <div className="todo-item-content">
@@ -111,8 +128,12 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
       />
 
       <div className="actions">
-        <img onClick={togglePopup} src={calendarToggle} />
-        <img onClick={() => deleteTodo(item.id)} src={deleteIcon} />
+        <img onClick={togglePopup} src={calendarToggle} alt="calendar" />
+        <img
+          onClick={() => deleteTodo(item.id)}
+          src={deleteIcon}
+          alt="delete"
+        />
       </div>
     </div>
   );

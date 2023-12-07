@@ -53,7 +53,7 @@ body {
     background: none;
     width: 100%;
     border: none;
-    outline: none; /* This removes the focus outline */
+    outline: none;
     cursor: pointer;
 
     &:focus {
@@ -112,8 +112,6 @@ img {
   cursor: pointer;
 }
 
-/* DatePopup.css */
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -134,5 +132,3 @@ img {
   padding: 20px;
   border-radius: 8px;
 }
-
-/* Add any additional styling as needed */
