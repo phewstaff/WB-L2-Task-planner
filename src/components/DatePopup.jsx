@@ -1,5 +1,3 @@
-// DatePopup.jsx
-
 import React, { useState, useRef, useEffect } from "react";
 
 const DatePopup = ({ isOpen, onClose, onSubmit }) => {

@@ -87,6 +87,11 @@ hr {
   height: 0;
 }
 
+.date-container {
+  display: flex;
+  gap: 8px;
+}
+
 .date {
   width: fit-content;
   color: rgba(172, 172, 172, 1);
@@ -94,8 +99,16 @@ hr {
   font-size: small;
 }
 
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: space-between;
+}
+
 img {
   width: 17px;
+  height: fit-content;
   cursor: pointer;
 }
 
