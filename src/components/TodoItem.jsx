@@ -21,8 +21,6 @@ const TodoItem = ({ item, focusedId, setFocusedId, todo, setTodo }) => {
   const isDateEmpty = item.date.trim().length === 0;
   const isTimeEmpty = item.time.trim().length === 0;
 
-  console.log(item.time);
-
   const handleTextBlur = () => {
     updateTodo(todo);
   };
