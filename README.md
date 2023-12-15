@@ -1,8 +1,8 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
 # Приложение «Планировщик задач»
+
+## [посмотреть демо](https://wb-l2-task-planner.vercel.app/)
 
 ### Необходимо разработать веб-приложение, помогающее пользователям управлять своим временем.
 
